@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Write4You — Handwritten Notes & Scribing Marketplace</title>
+  <meta name="description" content="Connect nearby students who need neatly handwritten notes or scribing help with skilled writers. Safe escrow, fair pay, local matching." />
+  <style>
+    :root{
+      --bg: #0e1116;
+      --card: #151a22;
+      --muted: #94a3b8;
+      --text: #e6edf3;
+      --brand: #6ee7b7; /* mint */
+      --brand-2:#60a5fa; /* blue */
+      --accent:#f59e0b; /* amber */
+      --danger:#ef4444;
+      --ok:#22c55e;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .btn{display:inline-flex;gap:10px;align-items:center;border:none;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#0b1020;padding:14px 18px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+    .btn.alt{background:transparent;color:var(--text);border:1px solid #263042}
+    header{position:sticky;top:0;backdrop-filter: blur(10px);background:rgba(14,17,22,.6);border-bottom:1px solid #202736;z-index:10}
+    nav{display:flex;align-items:center;justify-content:space-between}
+    nav .links{display:flex;gap:18px}
+    nav .links a{opacity:.9}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo svg{width:28px;height:28px}
+
+    /* Hero */
+    .hero{padding:64px 24px;background: radial-gradient(1200px 600px at 20% -10%, rgba(96,165,250,.25), transparent 60%), radial-gradient(1000px 500px at 110% 10%, rgba(110,231,183,.18), transparent 60%);} 
+    .heroGrid{display:grid;grid-template-columns: 1.1fr .9fr;gap:28px;align-items:center}
+    .hero h1{font-size: clamp(28px, 4.2vw, 46px);line-height:1.05;margin:0 0 12px}
+    .hero p{color:var(--muted);margin:0 0 24px}
+    .hero .card{background:var(--card);border:1px solid #202736;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .pill{display:inline-flex;gap:8px;align-items:center;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.35);padding:6px 10px;border-radius:999px;color:#cfe4ff;font-size:12px;font-weight:700;letter-spacing:.3px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+    .stat{background:linear-gradient(180deg,#131a26, #0f1420);border:1px solid #1f2a3a;border-radius:14px;padding:14px}
+    .stat b{font-size:22px}
+
+    /* Sections */
+    section{padding:56px 24px;border-top:1px solid #1a2231}
+    h2{font-size: clamp(22px,3.2vw,34px);margin:0 0 10px}
+    .subtitle{color:var(--muted);margin-top:6px}
+
+    /* Cards */
+    .grid{display:grid;gap:18px}
+    .grid.cols-3{grid-template-columns: repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns: repeat(2,1fr)}
+    @media (max-width: 900px){
+      .heroGrid{grid-template-columns:1fr}
+      .grid.cols-3{grid-template-columns:1fr}
+      .grid.cols-2{grid-template-columns:1fr}
+    }
+    .card{background:var(--card);border:1px solid #202736;border-radius:var(--radius);padding:18px}
+    .card h3{margin:0 0 8px;font-size:20px}
+    .chip{display:inline-block;background:#0e1828;border:1px solid #203147;padding:6px 10px;border-radius:999px;color:#c3d6ff;font-size:12px;margin-right:6px}
+    .row{display:flex;gap:12px;align-items:center}
+    .row svg{flex:0 0 22px}
+
+    /* Feature list */
+    ul.clean{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.clean li{display:flex;gap:10px;align-items:flex-start}
+    .tick{color:var(--ok);font-weight:900}
+
+    /* How it works */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .step{position:relative}
+    .step .num{position:absolute;inset: -12px auto auto -12px;background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#0c1224;width:34px;height:34px;display:grid;place-items:center;border-radius:999px;font-weight:900;border:2px solid #0d1324}
+
+    /* Pricing */
+    .price{font-size:30px;font-weight:900}
+
+    /* Banner */
+    .banner{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:linear-gradient(135deg, rgba(96,165,250,.13), rgba(110,231,183,.12));border:1px dashed #2a3a55;border-radius:16px;padding:18px;margin-top:18px}
+
+    /* Footer */
+    footer{padding:40px 24px;border-top:1px solid #1a2231;color:#aab4c2}
+    .footgrid{display:grid;grid-template-columns: 1.2fr .8fr;gap:18px}
+    @media (max-width: 900px){.footgrid{grid-template-columns:1fr}}
+    .legal{font-size:12px;color:#8da2be}
+
+    /* Small form */
+    .mini-form{display:grid;grid-template-columns: 1fr 1fr 1fr auto;gap:10px}
+    @media (max-width: 900px){.mini-form{grid-template-columns:1fr}}
+    input, select, textarea{width:100%;background:#0f1522;border:1px solid #263247;color:var(--text);padding:12px;border-radius:12px;outline:none}
+    textarea{min-height:120px}
+    label{font-size:13px;color:#b9c6d8}
+    .inline{display:flex;gap:10px;align-items:center}
+    .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:#102032;border:1px solid #263a55;color:#c9dbff}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo" aria-label="Write4You Home">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 20l5-1 10-10a2.828 2.828 0 10-4-4L5 15l-1 5z" stroke="url(#g)" stroke-width="1.6"/><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6ee7b7"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs></svg>
+          <span>Write4You</span>
+        </a>
+        <div class="links">
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#integrity">Integrity</a>
+          <a href="#contact" class="btn alt">Get Started</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container heroGrid">
+      <div>
+        <span class="pill">Handwritten notes & scribing • Nearby matching • Escrow</span>
+        <h1>Give or get beautifully handwritten notes from skilled peers in your area.</h1>
+        <p>Write4You connects students who <em>need neat, readable notes</em> with classmates who love writing. Built with safety, fairness and <strong>academic integrity</strong> at its core.</p>
+        <div class="inline" style="gap:12px;margin:18px 0 8px">
+          <a href="#contact" class="btn">Post a Request</a>
+          <a href="#contact" class="btn alt">Become a Scribe</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>150+</b><div class="subtitle">pilot orders completed</div></div>
+          <div class="stat"><b>95%</b><div class="subtitle">satisfaction rating</div></div>
+          <div class="stat"><b>10%</b><div class="subtitle">service fee per order</div></div>
+        </div>
+      </div>
+      <div class="card" aria-label="Quick request form">
+        <h3 style="margin:0 0 10px">Find a nearby scribe</h3>
+        <form class="grid cols-2" onsubmit="event.preventDefault(); alert('Demo only — connect backend later!');">
+          <div>
+            <label>What do you need?</label>
+            <select required>
+              <option value="">Select</option>
+              <option>Lecture notes</option>
+              <option>Lab records</option>
+              <option>Neat fair copy (from your draft)</option>
+              <option>Diagram redraws</option>
+              <option>Accessibility scribing (live)</option>
+            </select>
+          </div>
+          <div>
+            <label>Pages</label>
+            <input type="number" min="1" placeholder="e.g., 12" required />
+          </div>
+          <div>
+            <label>Your area / campus</label>
+            <input type="text" placeholder="e.g., FC Road, Pune" required />
+          </div>
+          <div>
+            <label>Deadline</label>
+            <input type="date" required />
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Brief details (ink colour, style, ruling)</label>
+            <textarea placeholder="Blue ink, cursive titles, A4 single‑rule…"></textarea>
+          </div>
+          <div style="grid-column:1/-1" class="inline">
+            <input id="agree" type="checkbox" required />
+            <label for="agree">I confirm this is <b>not</b> ghostwriting. Content is mine; I need scribing/copying only.</label>
+          </div>
+          <div style="grid-column:1/-1">
+            <button class="btn" type="submit">Get Estimated Quote</button>
+          </div>
+          <small class="subtitle" style="grid-column:1/-1">* Demo form only — connect to your backend later.</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem / Solution with reference to PPT -->
+  <section id="features">
+    <div class="container">
+      <h2>Why Write4You?</h2>
+      <p class="subtitle">A focused marketplace for handwritten academic <em>notes & scribing</em> — inspired by the <span class="badge">"Write4You: The Future of Handwritten Assignments"</span> deck.</p>
+      <div class="grid cols-3" style="margin-top:16px">
+        <div class="card">
+          <h3>Hyper‑specialized</h3>
+          <p>Built only for handwriting workflows: neat fair copies, lab books, diagrams, and accessibility scribing.</p>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> Page‑based quotes</li>
+            <li><span class="tick">✓</span> Style presets (print/cursive)</li>
+            <li><span class="tick">✓</span> Paper & ink preferences</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Trust & Escrow</h3>
+          <p>Payments are held securely until you approve delivery. Ratings and verified campus IDs build community trust.</p>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> Milestones for long notebooks</li>
+            <li><span class="tick">✓</span> Photo proofs before handover</li>
+            <li><span class="tick">✓</span> Dispute assistance</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Local First</h3>
+          <p>Match with nearby peers to save time and handover costs. Enable pickup points right on campus.</p>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> Map‑based search (plug later)</li>
+            <li><span class="tick">✓</span> Smart ETA suggestions</li>
+            <li><span class="tick">✓</span> Batch orders for groups</li>
+          </ul>
+        </div>
+      </div>
+      <div class="banner">
+        <div class="row">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"><path d="M12 1v22M3 12h18" opacity=".4"/><circle cx="12" cy="12" r="9" stroke-width="1.5"/></svg>
+          <div><b>From the PPT:</b> Niche focus, real‑time matching, and transparency are our core edges. Pilot showed <b>150+ jobs</b> and <b>95% satisfaction</b> in the first month.</div>
+        </div>
+        <span class="badge">Service fee: 10%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="container">
+      <h2>How it works</h2>
+      <p class="subtitle">Simple four‑step flow for buyers and scribes.</p>
+      <div class="steps">
+        <div class="card step"><div class="num">1</div><h3>Post</h3><p>Describe pages, style, deadline, and area. Add sample photos if needed.</p></div>
+        <div class="card step"><div class="num">2</div><h3>Match</h3><p>Nearby scribes send offers. Compare ratings, style samples, and ETA.</p></div>
+        <div class="card step"><div class="num">3</div><h3>Escrow</h3><p>Pay into escrow. Scribe shares progress snapshots; request tweaks.</p></div>
+        <div class="card step"><div class="num">4</div><h3>Handover</h3><p>Meet at pickup point or opt for delivery. Release payment on approval.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="container">
+      <h2>Transparent pricing</h2>
+      <p class="subtitle">Per‑page base + add‑ons for diagrams or special paper. Platform fee is included in the estimate.</p>
+      <div class="grid cols-3" style="margin-top:14px">
+        <div class="card">
+          <h3>Notes (Fair Copy)</h3>
+          <div class="price">₹10–₹20 / page</div>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> A4 single‑rule</li>
+            <li><span class="tick">✓</span> Blue/black ink</li>
+            <li><span class="tick">✓</span> Title highlighting</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Lab Records</h3>
+          <div class="price">₹20–₹40 / page</div>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> Tables & graphs</li>
+            <li><span class="tick">✓</span> Diagram redraws</li>
+            <li><span class="tick">✓</span> Numbered sections</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Accessibility Scribing</h3>
+          <div class="price">₹300 / hour</div>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tick">✓</span> Real‑time lecture scribing</li>
+            <li><span class="tick">✓</span> Priority matching</li>
+            <li><span class="tick">✓</span> Travel stipend (optional)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="subtitle" style="margin-top:10px">Prices are examples — adjust per campus rates. Use the estimator in the hero form to compute quotes.</div>
+    </div>
+  </section>
+
+  <!-- Integrity & Safety -->
+  <section id="integrity">
+    <div class="container">
+      <h2>Academic integrity & allowed use</h2>
+      <p class="subtitle">Write4You is a <b>scribing and fair‑copy service</b>. We do not enable ghostwriting or cheating.</p>
+      <div class="grid cols-2" style="margin-top:10px">
+        <div class="card">
+          <h3>Allowed</h3>
+          <ul class="clean">
+            <li><span class="tick">✓</span> Converting your own draft into neat fair copy</li>
+            <li><span class="tick">✓</span> Redrawing diagrams you specify</li>
+            <li><span class="tick">✓</span> Accessibility scribing for students who need it</li>
+            <li><span class="tick">✓</span> Sharing personal study notes (not exam answers)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not allowed</h3>
+          <ul class="clean">
+            <li><span class="tick" style="color:var(--danger)">×</span> Ghostwriting graded assignments</li>
+            <li><span class="tick" style="color:var(--danger)">×</span> Plagiarism or policy violations</li>
+            <li><span class="tick" style="color:var(--danger)">×</span> Selling exam content / answer keys</li>
+          </ul>
+          <p class="subtitle">Orders breaking these rules are rejected and refunded from escrow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to action / contact -->
+  <section id="contact">
+    <div class="container">
+      <h2>Get started today</h2>
+      <p class="subtitle">Post a need or apply as a scribe. Start local, grow campus‑wide.</p>
+      <div class="grid cols-2" style="margin-top:12px">
+        <div class="card">
+          <h3>Post a request</h3>
+          <form class="grid" onsubmit="event.preventDefault(); alert('Thanks! We\'ll reach out — connect backend later.');">
+            <label>What do you need?<input placeholder="e.g., Fair copy of physics notes (18 pages)" required></label>
+            <label>Your campus/area<input placeholder="e.g., FC Road, Pune" required></label>
+            <label>When do you need it?<input type="date" required></label>
+            <label>Budget (₹ per page)<input type="number" min="1" placeholder="e.g., 15"></label>
+            <button class="btn" type="submit">Submit Request</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Apply as a scribe</h3>
+          <form class="grid" onsubmit="event.preventDefault(); alert('Application received — connect backend later.');">
+            <label>Full name<input placeholder="Your name" required></label>
+            <label>Campus/Area<input placeholder="e.g., Deccan, Pune" required></label>
+            <label>Sample style link (drive/imgur)<input type="url" placeholder="https://…"></label>
+            <label>Availability<select><option>Weekdays evening</option><option>Weekends</option><option>Flexible</option></select></label>
+            <div class="inline"><input type="checkbox" id="agree2" required><label for="agree2">I agree to integrity rules above.</label></div>
+            <button class="btn" type="submit">Send Application</button>
+          </form>
+        </div>
+      </div>
+      <div class="banner" style="margin-top:16px">
+        <div class="row">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"><path d="M3 12h18M12 3v18" opacity=".4"/><rect x="4" y="4" width="16" height="16" rx="4" stroke-width="1.5"/></svg>
+          <div><b>Roadmap:</b> map search, real‑time matching, photo proofs, and verified IDs — all aligned with the PPT vision.</div>
+        </div>
+        <a href="#" class="badge">Pilot: 300+ active users</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footgrid">
+      <div>
+        <div class="logo" style="margin-bottom:10px">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 20l5-1 10-10a2.828 2.828 0 10-4-4L5 15l-1 5z" stroke="url(#g2)" stroke-width="1.6"/><defs><linearGradient id="g2" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6ee7b7"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs></svg>
+          <span>Write4You</span>
+        </div>
+        <div class="legal">© 2025 Write4You. Built for learning support. Use responsibly and follow your institution’s policies.</div>
+      </div>
+      <div>
+        <div class="legal">Contact: hello@write4you.local • +91‑00000‑00000</div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
